@@ -3,7 +3,9 @@ package br.com.codeitairlines.local;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.codeitairlines.exception.ChefeSozinhoOficialException;
 import br.com.codeitairlines.exception.PilotoSozinhoComissariaException;
+import br.com.codeitairlines.exception.PoliciaSemBandidoException;
 import br.com.codeitairlines.tripulacao.Bandido;
 import br.com.codeitairlines.tripulacao.ChefeServico;
 import br.com.codeitairlines.tripulacao.Comissaria;
@@ -12,7 +14,7 @@ import br.com.codeitairlines.tripulacao.Piloto;
 import br.com.codeitairlines.tripulacao.Policia;
 import br.com.codeitairlines.tripulacao.Tripulacao;
 
-public class Local {
+public class Local{
 	
 	private List<Tripulacao> tripulacao = new ArrayList<>();
 
@@ -24,6 +26,10 @@ public class Local {
 	private boolean containBandido = false;
 
 
+	public void addAoLocal(Tripulacao tripulacao) { }
+
+	public void removeDoLocal(Tripulacao tripulacao) { }
+	
 	public boolean verificaPilotoComissaria() {
 
 		return  isContainPiloto() && isContainComissaria() && !isContainChefeServico() && !isContainOficial() && !isContainPolicia() && !isContainBandido();
@@ -39,32 +45,7 @@ public class Local {
 		return  (isContainPiloto() || isContainComissaria() || isContainChefeServico() || !isContainOficial()) && (!isContainPolicia() && isContainBandido());
 	}
 
-	public void addAoLocal(Tripulacao tripulacao) throws PilotoSozinhoComissariaException{
-		if(!verificaPilotoComissaria()){
-			this.tripulacao.add(tripulacao);
-			validaTripulantes();
-		}
-		else{
-			throw new PilotoSozinhoComissariaException(
-				"Piloto nao pode ficar sozinho com Comissaria"
-			);
-		}
-	}
-
-	public void removeDoLocal(Tripulacao tripulacao) throws PilotoSozinhoComissariaException{
-		if(!verificaPilotoComissaria()){
-			
-		this.tripulacao.remove(tripulacao);
-		validaTripulantes();
-		}
-		else{
-			throw new PilotoSozinhoComissariaException(
-				"Piloto nao pode ficar sozinho com Comissaria"
-			);
-		}
-	}
-	
-	private void validaTripulantes(){
+	protected void validaTripulantes(){
 		this.inicarVariaveisValidacao();
 		for (Tripulacao tripulante : tripulacao) {
 				 if(tripulante instanceof Piloto)			{setContainPiloto(true);}			
@@ -76,7 +57,7 @@ public class Local {
 		}
 	}
 
-	private void inicarVariaveisValidacao(){
+	protected void inicarVariaveisValidacao(){
 		setContainPiloto(false);		
 		setContainOficial(false);
 		setContainChefeServico(false);
@@ -140,5 +121,7 @@ public class Local {
 	private void setContainBandido(boolean containBandido) {
 		this.containBandido = containBandido;
 	}
+	
+	 public void validaRegras() throws PilotoSozinhoComissariaException, ChefeSozinhoOficialException, PoliciaSemBandidoException {}
 
 }
