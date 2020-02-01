@@ -17,6 +17,7 @@ import br.com.codeitairlines.local.Terminal;
 import br.com.codeitairlines.tripulacao.Bandido;
 import br.com.codeitairlines.tripulacao.ChefeServico;
 import br.com.codeitairlines.tripulacao.Comissaria;
+import br.com.codeitairlines.tripulacao.Motorista;
 import br.com.codeitairlines.tripulacao.Oficial;
 import br.com.codeitairlines.tripulacao.Piloto;
 import br.com.codeitairlines.tripulacao.Policia;
@@ -88,7 +89,8 @@ public class Main {
 			}
 			for (int i = 0; i < destino.getTripulacao().size(); i++) {
 			
-				data2[i] = destino.getTripulacao().get(i).getNome() +" : "+ destino.getTripulacao().get(i).getClass().getSimpleName();		        f2.add(new JList(data2));
+				data2[i] = destino.getTripulacao().get(i).getNome() +" : "+ destino.getTripulacao().get(i).getClass().getSimpleName();		        
+				f2.add(new JList(data2));
 		        f2.setTitle("Aviao");
 		        f2.setSize(300, 300);
 		        f2.setLocation(880, 200);
@@ -99,11 +101,7 @@ public class Main {
 				JOptionPane.showMessageDialog(null, jcb, "Selecione o Motorista", JOptionPane.QUESTION_MESSAGE);
 			}while(!carro.addMotorista((Tripulacao) jcb.getSelectedItem()));
 		
-			//try {
-				origem.removeDoLocal((Tripulacao) jcb.getSelectedItem());
-			//} catch (PilotoSozinhoComissariaException e) {
-			//	e.printStackTrace();
-			//}
+			origem.removeDoLocal((Tripulacao) jcb.getSelectedItem());
 		
 			jcb.removeAllItems();
 			for (int i = 0; i < origem.getTripulacao().size(); i++) {
@@ -114,7 +112,6 @@ public class Main {
 				JOptionPane.showMessageDialog(null, jcb, "Selecione o Passageiro", JOptionPane.QUESTION_MESSAGE);
 			}while(!carro.addPassageiro((Tripulacao) jcb.getSelectedItem()));
 		
-			//try {
 				origem.removeDoLocal((Tripulacao) jcb.getSelectedItem());
 				
 				try {
@@ -124,75 +121,84 @@ public class Main {
 					JOptionPane.showMessageDialog (null, e);
 					origem.addAoLocal((Tripulacao) carro.getMotorista());
 					origem.addAoLocal((Tripulacao) carro.getPassageiro());
-					
 					e.printStackTrace();
+					
 				} catch (ChefeSozinhoOficialException e) {
 					JOptionPane.showMessageDialog (null, e);
 					origem.addAoLocal((Tripulacao) carro.getMotorista());
 					origem.addAoLocal((Tripulacao) carro.getPassageiro());
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				} catch (PoliciaSemBandidoException e) {
 					JOptionPane.showMessageDialog (null, e);
 					origem.addAoLocal((Tripulacao) carro.getMotorista());
 					origem.addAoLocal((Tripulacao) carro.getPassageiro());
-					// TODO Auto-generated catch block
+					fase1 = false;
+					
 					e.printStackTrace();
 				}
-			//	break;
-			//} catch (PilotoSozinhoComissariaException e) {
-				//e.printStackTrace();
-				//JOptionPane.showMessageDialog (null, e);
-				//origem.retornarAoLocal((Tripulacao) carro.getMotorista(),(Tripulacao) carro.getPassageiro());
-			//}
-
+	
 		}while(!fase1);
 		
 		JOptionPane.showMessageDialog (null, "Carro em trânsito");
 
 		
-		//try {
-		//	destino.addAoLocal((Tripulacao) carro.getPassageiro());
-		//	origem.retornarAoLocal((Tripulacao) carro.getMotorista(),(Tripulacao) carro.getPassageiro());
-		//} catch (PilotoSozinhoComissariaException e) {
-		//	e.printStackTrace();
-		//}
-		
 		destino.addAoLocal((Tripulacao) carro.getPassageiro());
 		try {
-			
+
 			if(!origem.getTripulacao().isEmpty()) {
 				destino.validaRegras();
 				origem.addAoLocal((Tripulacao) carro.getMotorista());
 				origem.validaRegras();
 			}
-			else {fase2=true;}
-			//origem.addAoLocal((Tripulacao) carro.getMotorista());
+			else {
+				
+				destino.addAoLocal((Tripulacao) carro.getMotorista());
+				destino.addAoLocal((Tripulacao) carro.getPassageiro());
+				fase2=true;
+				}
 		} catch (PilotoSozinhoComissariaException e) {
 			JOptionPane.showMessageDialog (null, e);
 			origem.addAoLocal((Tripulacao) carro.getMotorista());
 			origem.addAoLocal((Tripulacao) carro.getPassageiro());
 			destino.removeDoLocal((Tripulacao) carro.getPassageiro());
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		} catch (ChefeSozinhoOficialException e) {
 			JOptionPane.showMessageDialog (null, e);
 			origem.addAoLocal((Tripulacao) carro.getMotorista());
 			origem.addAoLocal((Tripulacao) carro.getPassageiro());
 			destino.removeDoLocal((Tripulacao) carro.getPassageiro());
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		} catch (PoliciaSemBandidoException e) {
-			JOptionPane.showMessageDialog (null, e);
-			origem.addAoLocal((Tripulacao) carro.getMotorista());
-			origem.addAoLocal((Tripulacao) carro.getPassageiro());
-			destino.removeDoLocal((Tripulacao) carro.getPassageiro());
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("wygwywgywgy");
+			if(destino.isContainMotorista()) {
+				System.out.println("sim");
+				
+				for(Tripulacao tripulante : destino.getTripulacao()) {
+					if(tripulante instanceof Motorista) {
+						origem.addAoLocal((Tripulacao) tripulante);
+						destino.removeDoLocal((Tripulacao) tripulante);
+						
+						System.out.println(tripulante.getNome());
+						System.out.println(carro.getMotorista());
+						break;
+						}
+				}
+				destino.addAoLocal((Tripulacao) carro.getMotorista());
+
+			}
+			else {
+				JOptionPane.showMessageDialog (null, "Não existe nenhum motorista para voltar com o carro!");
+				origem.addAoLocal((Tripulacao) carro.getMotorista());
+				origem.addAoLocal((Tripulacao) carro.getPassageiro());
+				destino.removeDoLocal((Tripulacao) carro.getPassageiro());
+			}
+			
 		}
 		
 		
- 
 		System.out.println(origem.getTripulacao());
 
 		System.out.println(destino.getTripulacao());
@@ -200,6 +206,21 @@ public class Main {
 	 }while(!fase2);	
 	 
 
+
+		data2= new String[30] ;
+
+	        f.setVisible(false);
+
+		for (int i = 0; i < destino.getTripulacao().size(); i++) {
+		
+			data2[i] = destino.getTripulacao().get(i).getNome() +" : "+ destino.getTripulacao().get(i).getClass().getSimpleName();		        
+			f2.add(new JList(data2));
+	        f2.setTitle("Aviao");
+	        f2.setSize(300, 300);
+	        f2.setLocation(880, 200);
+	        f2.setVisible(true);
+		}
+		
 	 JOptionPane.showMessageDialog (null, "Fim");
 	}
 }

@@ -30,7 +30,7 @@ public class Aviao extends Local{
     	if(verificaChefeOficial()) {
     		
     		throw new ChefeSozinhoOficialException(
-					"Chede de Bordo nao pode ficar sozinho com Oficial no Aviao");
+					"Chefe de Bordo nao pode ficar sozinho com Oficial no Aviao");
     	}
     	
     	if(verificaPoliciaBandido()) {

@@ -24,7 +24,7 @@ public class Carro {
 			this.motorista = (Motorista) motorista;
 	
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog (null, "Tripulante escolhido não pode ser motorista");
+			JOptionPane.showMessageDialog (null, "Tripulante escolhido nao pode ser motorista");
 			return false;
 		}
 		return true;		

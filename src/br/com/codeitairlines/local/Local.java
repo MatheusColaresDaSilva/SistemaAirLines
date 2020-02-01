@@ -24,6 +24,7 @@ public class Local{
 	private boolean containComissaria = false;
 	private boolean containPolicia = false;
 	private boolean containBandido = false;
+	private boolean containMotorista = false;
 
 
 	public void addAoLocal(Tripulacao tripulacao) { }
@@ -42,15 +43,15 @@ public class Local{
 	
 	public boolean  verificaPoliciaBandido() {
 
-		return  (isContainPiloto() || isContainComissaria() || isContainChefeServico() || !isContainOficial()) && (!isContainPolicia() && isContainBandido());
+		return (!isContainPolicia() && isContainBandido()) && (isContainPiloto() || isContainComissaria() || isContainChefeServico() || !isContainOficial());
 	}
 
 	protected void validaTripulantes(){
 		this.inicarVariaveisValidacao();
 		for (Tripulacao tripulante : tripulacao) {
-				 if(tripulante instanceof Piloto)			{setContainPiloto(true);}			
+				 if(tripulante instanceof Piloto)			{setContainPiloto(true);setContainMotorista(true);}			
 			else if(tripulante instanceof Oficial)			{setContainOficial(true);}
-			else if(tripulante instanceof ChefeServico)		{setContainChefeServico(true);}
+			else if(tripulante instanceof ChefeServico)		{setContainChefeServico(true);setContainMotorista(true);}
 			else if(tripulante instanceof Comissaria)		{setContainComissaria(true);}
 			else if(tripulante instanceof Policia)			{setContainPolicia(true);}
 			else if(tripulante instanceof Bandido)			{setContainBandido(true);}
@@ -64,6 +65,7 @@ public class Local{
 		setContainComissaria(false);
 		setContainPolicia(false);
 		setContainBandido(false);
+		setContainMotorista(false);
 	}
  
 	public List<Tripulacao> getTripulacao() {
@@ -74,7 +76,7 @@ public class Local{
 		this.tripulacao = tripulacao;
 	}
 
-	private boolean isContainPiloto() {
+	public boolean isContainPiloto() {
 		return containPiloto;
 	}
 
@@ -82,7 +84,7 @@ public class Local{
 		this.containPiloto = containPiloto;
 	}
 
-	private boolean isContainOficial() {
+	public boolean isContainOficial() {
 		return containOficial;
 	}
 
@@ -90,7 +92,7 @@ public class Local{
 		this.containOficial = containOficial;
 	}
 
-	private boolean isContainChefeServico() {
+	public boolean isContainChefeServico() {
 		return containChefeServico;
 	}
 
@@ -98,7 +100,7 @@ public class Local{
 		this.containChefeServico = containChefeServico;
 	}
 
-	private boolean isContainComissaria() {
+	public boolean isContainComissaria() {
 		return containComissaria;
 	}
 
@@ -106,7 +108,7 @@ public class Local{
 		this.containComissaria = containComissaria;
 	}
 
-	private boolean isContainPolicia() {
+	public boolean isContainPolicia() {
 		return containPolicia;
 	}
 
@@ -114,14 +116,22 @@ public class Local{
 		this.containPolicia = containPolicia;
 	}
 
-	private boolean isContainBandido() {
+	public boolean isContainBandido() {
 		return containBandido;
 	}
 
 	private void setContainBandido(boolean containBandido) {
 		this.containBandido = containBandido;
 	}
+
+	public boolean isContainMotorista() {
+		return containMotorista;
+	}
+
+	private void setContainMotorista(boolean containMotorista) {
+		this.containMotorista = containMotorista;
+	}
 	
-	 public void validaRegras() throws PilotoSozinhoComissariaException, ChefeSozinhoOficialException, PoliciaSemBandidoException {}
+	public void validaRegras() throws PilotoSozinhoComissariaException, ChefeSozinhoOficialException, PoliciaSemBandidoException {}
 
 }

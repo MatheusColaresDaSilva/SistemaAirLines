@@ -32,7 +32,7 @@ public class Terminal extends Local {
     	if(verificaChefeOficial()) {
     		
     		throw new ChefeSozinhoOficialException(
-					"Chede de Bordo nao pode ficar sozinho com Oficial no Terminal");
+					"Chefe de Bordo nao pode ficar sozinho com Oficial no Terminal");
     	}
     	
     	if(verificaPoliciaBandido()) {
