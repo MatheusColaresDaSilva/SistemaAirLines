@@ -27,9 +27,20 @@ public class Local{
 	private boolean containMotorista = false;
 
 
-	public void addAoLocal(Tripulacao tripulacao) { }
+	public void validaRegras() throws PilotoSozinhoComissariaException, ChefeSozinhoOficialException, PoliciaSemBandidoException {
+		//Polimorfismo no Aviao e Terminal
+	}
 
-	public void removeDoLocal(Tripulacao tripulacao) { }
+	public void addAoLocal(Tripulacao tripulacao){
+		if(!this.getTripulacao().contains(tripulacao)) {
+			this.getTripulacao().add(tripulacao);
+			validaTripulantes();}
+	}
+	
+	public void removeDoLocal(Tripulacao tripulacao) {
+		this.getTripulacao().remove(tripulacao);
+		validaTripulantes();
+	}
 	
 	public boolean verificaPilotoComissaria() {
 
@@ -43,7 +54,8 @@ public class Local{
 	
 	public boolean  verificaPoliciaBandido() {
 
-		return (!isContainPolicia() && isContainBandido()) && (isContainPiloto() || isContainComissaria() || isContainChefeServico() || !isContainOficial());
+		return ((!isContainPolicia() && isContainBandido()) || (isContainPolicia() && !isContainBandido())) && (isContainPiloto() || isContainComissaria() || isContainChefeServico() || isContainOficial());
+		
 	}
 
 	protected void validaTripulantes(){
@@ -132,6 +144,4 @@ public class Local{
 		this.containMotorista = containMotorista;
 	}
 	
-	public void validaRegras() throws PilotoSozinhoComissariaException, ChefeSozinhoOficialException, PoliciaSemBandidoException {}
-
 }

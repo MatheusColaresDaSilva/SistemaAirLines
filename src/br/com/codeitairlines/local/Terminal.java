@@ -7,20 +7,6 @@ import br.com.codeitairlines.tripulacao.Tripulacao;
 
 public class Terminal extends Local {
 
-	@Override
-	public void addAoLocal(Tripulacao tripulacao) {
-		if(!this.getTripulacao().contains(tripulacao)) {
-			this.getTripulacao().add(tripulacao);
-		}
-	}
-	
-	@Override
-	public void removeDoLocal(Tripulacao tripulacao){
-		
-		this.getTripulacao().remove(tripulacao);
-		validaTripulantes();
-		
-	}
 	
     public void validaRegras() throws PilotoSozinhoComissariaException, ChefeSozinhoOficialException, PoliciaSemBandidoException {
     	if(verificaPilotoComissaria()) {
