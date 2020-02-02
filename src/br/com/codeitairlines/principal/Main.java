@@ -36,6 +36,9 @@ public class Main {
 		Local origem = new Terminal();
 		Local destino = new Aviao();
 		Carro carro = new Carro();
+		
+		boolean fase1 = false;
+		boolean fase2 = false;
 
 		TripulacaoTecnica piloto = new Piloto("Matheus");
 		TripulacaoTecnica oficial1 = new Oficial("Frank");
@@ -57,10 +60,7 @@ public class Main {
 		
 		JComboBox jcb = new JComboBox();
 		
-		boolean fase1 = false;
-		boolean fase2 = false;
-
-
+	
 	 do { /*do principal*/
 		do { /*do secundário*/
 			
@@ -69,7 +69,6 @@ public class Main {
 			jcb.removeAllItems();	
 			for (int i = 0; i < origem.getTripulacao().size(); i++) {
 				jcb.addItem(origem.getTripulacao().get(i));
-				
 				
 				listaTripulantesTerminal[i] = origem.getTripulacao().get(i).getNome() +" : "+ origem.getTripulacao().get(i).getClass().getSimpleName();
 		        jFrameTerminal.add(new JList(listaTripulantesTerminal));
@@ -189,7 +188,6 @@ public class Main {
 	 }while(!fase2);	
 	 
 	listaTripulantesAviao= new String[30] ;
-
     jFrameTerminal.setVisible(false);
 
 	for (int i = 0; i < destino.getTripulacao().size(); i++) {

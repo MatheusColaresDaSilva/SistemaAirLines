@@ -45,7 +45,7 @@ public class Carro {
 	public void validaRegra() throws PoliciaSemBandidoException {
 		if(verificaPoliciaBandidoNoCarro()) {
 			throw new PoliciaSemBandidoException(
-					"Policia e Bandido deve andar juntos");
+					"Policia e Bandido devem andar juntos");
 		}
 	}
 		
